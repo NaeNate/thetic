@@ -28,9 +28,8 @@ const createImage = async () => {
   })
 }
 
-if (!location.hash) {
-  document.getElementById("before").hidden = false
-} else {
+if (location.hash) {
+  document.getElementById("before").hidden = true
   document.getElementById("after").hidden = false
 
   createImage()

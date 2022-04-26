@@ -1,7 +1,7 @@
-const width = localStorage.getItem("width")
-const height = localStorage.getItem("height")
-
 const createImage = async () => {
+  const width = localStorage.getItem("width")
+  const height = localStorage.getItem("height")
+
   const response = await fetch(
     `https://api.spotify.com/v1/me/top/tracks?limit=${width * height}`,
     {
@@ -13,7 +13,7 @@ const createImage = async () => {
 
   const items = (await response.json()).items
 
-  const canvas = document.getElementById("c")
+  const canvas = document.querySelector("canvas")
   canvas.width = width * 300
   canvas.height = height * 300
 
@@ -36,7 +36,7 @@ if (!location.hash) {
   createImage()
 }
 
-document.getElementById("form").onsubmit = (e) => {
+document.querySelector("form").onsubmit = (e) => {
   e.preventDefault()
 
   localStorage.setItem("width", document.getElementById("width").value)

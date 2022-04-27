@@ -1,0 +1,8 @@
+input {
+  height: 19px;
+}
+
+select,
+button {
+  height: 25px;
+}

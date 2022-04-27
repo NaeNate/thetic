@@ -2,17 +2,21 @@
 <html>
   <head>
     <title>Thetic</title>
+    <link rel="stylesheet" href="index.css" />
   </head>
 
   <body>
     <h1>Thetic</h1>
 
     <div id="before">
-      <form>
-        <input type="number" id="width" placeholder="width" />
-        <input type="number" id="height" placeholder="height" />
-        <button type="submit">Submit</button>
-      </form>
+      <input type="number" id="width" placeholder="width" />
+      <input type="number" id="height" placeholder="height" />
+      <select>
+        <option value="l">Low</option>
+        <option value="m">Medium</option>
+        <option value="h">High</option>
+      </select>
+      <button id="submit">Submit</button>
     </div>
 
     <div id="after" hidden>

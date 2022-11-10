@@ -45,7 +45,11 @@ document.querySelector("button").addEventListener("click", () => {
     [
       "client_id=f0cdb4dde1aa46179c245e8216036aa9",
       "response_type=token",
-      "redirect_uri=http://localhost:3000/",
+      `redirect_uri=${
+        location.hostname == "localhost"
+          ? "http://localhost:3000/"
+          : "https://thetic.netlify.app/"
+      }`,
       "scope=user-top-read",
     ].join("&")
 })

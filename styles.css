@@ -3,3 +3,8 @@
   margin: 0;
   padding: 0;
 }
+
+#before {
+  margin: 10px;
+  text-align: center;
+}

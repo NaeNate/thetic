@@ -1,4 +1,20 @@
 const createImage = async () => {
+  let quality
+
+  switch (localStorage.getItem("quality")) {
+    case "h":
+      quality = 640
+      break
+    case "m":
+      quality = 300
+      break
+    case "l":
+      quality = 64
+      break
+  }
+
+  console.log(quality)
+
   const width = localStorage.getItem("width")
   const height = localStorage.getItem("height")
 
@@ -12,18 +28,24 @@ const createImage = async () => {
   ).then((response) => response.json())
 
   const canvas = document.querySelector("canvas")
-  canvas.width = width * 300
-  canvas.height = height * 300
+  canvas.width = width * quality
+  canvas.height = height * quality
 
   items.forEach((item, i) => {
     const img = document.createElement("img")
 
-    img.src = item.album.images[1].url
+    img.src = item.album.images.filter((image) => {
+      return image.width === quality
+    })[0].url
 
     img.onload = () => {
       canvas
         .getContext("2d")
-        .drawImage(img, (i % width) * 300, ((i - (i % width)) / width) * 300)
+        .drawImage(
+          img,
+          (i % width) * quality,
+          ((i - (i % width)) / width) * quality
+        )
     }
   })
 }
@@ -39,6 +61,8 @@ document.querySelector("button").addEventListener("click", () => {
   document.querySelectorAll("input").forEach(({ id, value }) => {
     localStorage.setItem(id, value)
   })
+
+  localStorage.setItem("quality", document.querySelector("select").value)
 
   location.href =
     "https://accounts.spotify.com/authorize?" +

@@ -1,3 +1,3 @@
 # thetic
 
-Create an image of all your favorite albums.
+Create an image with all your favorite albums.

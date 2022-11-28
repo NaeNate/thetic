@@ -13,8 +13,6 @@ const createImage = async () => {
       break
   }
 
-  console.log(quality)
-
   const width = localStorage.getItem("width")
   const height = localStorage.getItem("height")
 
@@ -58,10 +56,8 @@ if (location.hash) {
 }
 
 document.querySelector("button").addEventListener("click", () => {
-  document.querySelectorAll("input").forEach(({ id, value }) => {
-    localStorage.setItem(id, value)
-  })
-
+  localStorage.setItem("width", document.querySelector("#width").value)
+  localStorage.setItem("height", document.querySelector("#height").value)
   localStorage.setItem("quality", document.querySelector("select").value)
 
   location.href =

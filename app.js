@@ -1,40 +1,41 @@
-const createImage = async () => {
-  let quality
-
-  switch (localStorage.getItem("quality")) {
-    case "h":
-      quality = 640
-      break
-    case "m":
-      quality = 300
-      break
-    case "l":
-      quality = 64
-      break
-  }
-
-  const width = localStorage.getItem("width")
-  const height = localStorage.getItem("height")
-
-  const { items } = await fetch(
-    `https://api.spotify.com/v1/me/top/tracks?limit=${width * height}`,
+const fetchURL = async (i, term) => {
+  return await fetch(
+    `https://api.spotify.com/v1/me/top/tracks?limit=50&offset=${
+      i && i * 50 - 1
+    }&time_range=${term}`,
     {
       headers: {
         Authorization: `Bearer ${location.hash.split("=")[1].split("&")[0]}`,
       },
     }
   ).then((response) => response.json())
+}
+
+const createImage = async () => {
+  const width = localStorage.getItem("width") || 5
+  const height = localStorage.getItem("height") || 5
+
+  const quality = localStorage.getItem("quality")
+  const term = localStorage.getItem("term")
+
+  const urls = new Set()
+
+  for (let i = 0; i < 3; i++) {
+    const response = await fetchURL(i, term)
+
+    response.items.forEach((item) => {
+      urls.add(item.album.images.find(({ width }) => width == quality)[0].url)
+    })
+  }
 
   const canvas = document.querySelector("canvas")
   canvas.width = width * quality
   canvas.height = height * quality
 
-  items.forEach((item, i) => {
+  Array.from(urls).forEach((url, i) => {
     const img = document.createElement("img")
 
-    img.src = item.album.images.filter((image) => {
-      return image.width === quality
-    })[0].url
+    img.src = url
 
     img.onload = () => {
       canvas
@@ -42,7 +43,9 @@ const createImage = async () => {
         .drawImage(
           img,
           (i % width) * quality,
-          ((i - (i % width)) / width) * quality
+          ((i - (i % width)) / width) * quality,
+          quality,
+          quality
         )
     }
   })
@@ -56,9 +59,9 @@ if (location.hash) {
 }
 
 document.querySelector("button").addEventListener("click", () => {
-  localStorage.setItem("width", document.querySelector("#width").value)
-  localStorage.setItem("height", document.querySelector("#height").value)
-  localStorage.setItem("quality", document.querySelector("select").value)
+  ;["width", "height", "quality", "term"].forEach((field) => {
+    localStorage.setItem(field, document.querySelector(`#${field}`).value)
+  })
 
   location.href =
     "https://accounts.spotify.com/authorize?" +

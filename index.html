@@ -12,16 +12,22 @@
       <input id="height" placeholder="height" />
 
       <select id="quality">
-        <option value="h">High</option>
-        <option value="m" selected>Medium</option>
-        <option value="l">Low</option>
+        <option value="640">High</option>
+        <option value="300" selected>Medium</option>
+        <option value="64">Low</option>
+      </select>
+
+      <select id="term">
+        <option value="long_term">Long</option>
+        <option value="medium_term" selected>Medium</option>
+        <option value="short_term">Short</option>
       </select>
 
       <button id="create">Create</button>
     </div>
 
     <div id="after" hidden>
-      <canvas style="width: 40%"></canvas>
+      <canvas style="width: 50%"></canvas>
     </div>
 
     <script src="app.js" defer></script>

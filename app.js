@@ -24,7 +24,8 @@ const createImage = async () => {
     const response = await fetchURL(i, term)
 
     response.items.forEach((item) => {
-      urls.add(item.album.images.find(({ width }) => width == quality)[0].url)
+      if (item.album.images.length > 0)
+        urls.add(item.album.images.find(({ width }) => width == quality).url)
     })
   }
 
